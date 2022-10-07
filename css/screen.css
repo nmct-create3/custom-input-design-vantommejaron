@@ -67,6 +67,20 @@
     /*  = 48px */
     --global-whitespace-xxl: calc(var(--global-whitespace) * 3);
     /*  = 72px */
+
+    --global-input-backgroundColor: White;
+    --global-input-color: var(--global-color-neutral-xxxx-dark);
+    --global-input-borderColor: var(--global-color-neutral-xxx-light);
+    --global-input-hover-borderColor: var(--global-color-neutral-xx-light);
+    --global-input-focus-borderColor: var(--global-color-alpha);
+    --global-input-boxShadow: 0 0 0 3px var(--global-color-alpha-x-transparent);
+
+    /* Dark Mode */
+    /* maak hier een variable aan die je in de html selector gebruikt en in de media veranderd */
+    --global-page-color: var(--global-color-neutral-xxxx-dark);
+    --global-page-backgroundColor: var(--global-color-neutral-xxxx-light);
+    --global-card-color: White;
+
 }
 
 /*------------------------------------*\
@@ -79,15 +93,37 @@
     Global page styles + universal box-sizing:
 */
 
+
 html {
     line-height: 1.5;
     font-family: "Inter Web", Helvetica, arial, sans-serif;
-    color: var(--global-color-neutral-xxxx-dark);
-    background-color: var(--global-color-neutral-xxxx-light);
+    /* color: var(--global-color-neutral-xxxx-dark);
+    background-color: var(--global-color-neutral-xxxx-light); */
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    
+    /* Dark Mode */
+    color: var(--global-page-color);
+    background-color: var(--global-page-backgroundColor);
+    --global-input-color: ;
 }
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Sign in to your account */
+        --global-page-color: white;
+        /* achtergrond van de website */
+        --global-page-backgroundColor: var(--global-color-neutral-xxxx-dark);
+        --global-card-color: var(--global-color-neutral-xxx-dark);
+        --global-input-backgroundColor: var(--global-color-neutral-xxxx-dark);
+    }
+        .c-logo {
+            --logo__path--1--fill: White;
+            --logo__path--2--fill: var(--logo__path--1--fill);
+            --logo__path--3--fill: var(--logo__path--1--fill);
+        }
+} 
 
 *,
 *:before,
@@ -517,15 +553,15 @@ input::placeholder {
 }
 
 .c-logo__path--1 {
-    fill: var(--global-color-neutral-xxxx-dark);
+    fill: var(--logo__path--1--fill, var(--global-color-neutral-xxxx-dark));
 }
 
 .c-logo__path--2 {
-    fill: var(--global-color-alpha);
+    fill: var(--logo__path--2--fill, var(--global-color-alpha));
 }
 
 .c-logo__path--3 {
-    fill: var(--global-color-alpha-x-dark);
+    fill: var(--logo__path--3--fill, var(--global-color-alpha-x-dark));
 }
 
 /*
@@ -535,7 +571,7 @@ input::placeholder {
 */
 
 .c-card {
-    background-color: White;
+    background-color: var(--global-card-color);
     margin-bottom: var(--global-whitespace);
     border-radius: var(--global-borderRadius);
     box-shadow: 0 0 0 var(--global-borderWidth) rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, .075);
@@ -546,6 +582,7 @@ input::placeholder {
 .c-card__body,
 .c-card__footer {
     padding: var(--global-whitespace);
+    
 }
 
 .c-card__footer {
@@ -601,10 +638,10 @@ input::placeholder {
     -moz-appearance: none;
     appearance: none;
     width: 100%;
-    border: var(--global-borderWidth) solid var(--global-color-neutral-xxx-light);
+    border: var(--global-borderWidth) solid var(--global-input-borderColor);
     border-radius: var(--global-borderRadius);
-    color: var(--global-color-neutral-xxxx-dark);
-    background-color: White;
+    background-color: var(--global-input-backgroundColor);
+    color: var(--global-input-color);
     font-family: inherit;
     font-size: 16px;
     line-height: calc(var(--global-baseline) * 3);
@@ -613,13 +650,41 @@ input::placeholder {
     transition: border var(--global-transition-timing-alpha);
 }
 
+.c-custom-select{
+    display: flex;
+    position: relative;
+}
+
+.c-custom-select__input {
+    display: block;
+}
+
+.c-custom-select__symbol{
+    display: flex;
+    position: absolute;
+    fill: var(--global-color-neutral-x-light);
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+    right: 12px;
+    top: 12px;
+
+}
+
+
+
 .c-input:hover {
-    border-color: var(--global-color-neutral-xx-light);
+    border: var(--global-borderWidth) solid var(--global-input-hover-borderColor);
+    background-color: var(--global-input-backgroundColor);
+    color: var(--global-input-color);
+
 }
 
 .c-input:focus,
 .c-input:active {
-    border-color: var(--global-color-alpha);
+    border: var(--global-borderWidth) solid var(--global-input-focus-borderColor);
+    background-color: var(--global-input-backgroundColor);
+    color: var(--global-input-color);
     box-shadow: 0 0 0 3px var(--global-color-alpha-x-transparent);
 }
 
@@ -627,6 +692,196 @@ input::placeholder {
 
 .c-option {
     margin-right: var(--global-whitespace-sm);
+}
+
+.c-option--hidden:hover+label {
+    color: var(--global-input-color);
+}
+
+.c-option--hidden:hover+label .c-custom-option__fake-input--checkbox {
+    border: var(--global-borderWidth) solid var(--global-input-hover-borderColor);
+    /* background-color: var(--global-input-backgroundColor); */
+    color: var(--global-input-color);
+}
+
+.c-option--hidden:hover+label .c-custom-option__fake-input--radio {
+    border: var(--global-borderWidth) solid var(--global-input-hover-borderColor);
+    color: var(--global-input-color);
+}
+
+.c-option--hidden:focus+label .c-custom-option__fake-input,
+.c-option--hidden:active+label .c-custom-option__fake-input {
+    box-shadow: 0 0 0 3px var(--global-color-alpha-x-transparent);
+}
+
+.c-option-list {
+    margin-bottom: 24px;
+}
+
+.c-option-list__item {
+    margin-bottom: 12px;
+}
+
+.c-custom-option {
+    display: flex;
+
+    /* -- local variables -- */
+    --custom-option-borderColor: var(--global-input-borderColor);
+    --custom-option-focus-borderColor: var(--global-input-focus-borderColor);
+}
+
+.c-custom-option:hover {
+    --custom-option-borderColor: var(--custom-option-hover-borderColor);
+}
+
+.c-custom-option:hover .c-custom-option__fake-input {
+    border-color: var(--global-input-hover-borderColor);
+}
+
+.c-custom-option__symbol {
+    display: block;
+    opacity: 0;
+}
+
+.c-custom-option__fake-input {
+    display: flex;
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--custom-option-borderColor);
+    margin-right: 8px;
+}
+
+.c-custom-option__fake-input--checkbox {
+    border-radius: 3px;
+    background-color: var(--global-input-backgroundColor);
+}
+
+.c-custom-option__fake-input--radio {
+    border-radius: 100%;
+}
+
+.c-option--hidden:checked+.c-custom-option {
+    opacity: 1;
+}
+
+.c-option--hidden:checked+.c-custom-option .c-custom-option__symbol {
+    opacity: 1;
+    transition: .5s;
+}
+
+.c-custom-option__fake-input--checkbox .c-custom-option__symbol {
+    display: flex;
+    margin: auto;
+    width: 10px;
+    height: 10px;
+    fill: var(--global-color-alpha);
+
+}
+
+.c-custom-option__fake-input--radio .c-custom-option__symbol {
+    display: flex;
+    margin: auto;
+    width: 6px;
+    height: 6px;
+    border-radius: 100%;
+    background-color: var(--global-color-alpha);
+}
+
+/*
+    Component: Custom Toggle
+    ---
+    Class to put on all toggle classes
+*/
+.c-custom-toggle {
+    display: flex;
+
+    /* -- local variables -- */
+    --custom-option-borderColor: var(--global-input-borderColor);
+    --custom-option-focus-borderColor: var(--global-input-focus-borderColor);
+}
+
+.c-custom-toggle__fake-input {
+    display: block;
+    width: 48px;
+    height: 24px;
+    border: 1px solid var(--custom-option-borderColor);
+    border-radius: 24px;
+    margin-right: 8px;
+    background: #F5F6FA;
+}
+
+.c-option--hidden:checked+.c-custom-toggle .c-custom-toggle__fake-input {
+    background: var(--global-color-alpha-light);
+}
+
+.c-option--hidden:focus+.c-custom-toggle .c-custom-toggle__fake-input {
+    border-color: var(--global-color-alpha-dark);
+    box-shadow: 0 0 0 3px var(--global-color-alpha-x-transparent);
+}
+
+.c-option--hidden:active + .c-custom-toggle .c-custom-toggle__fake-input::after{
+    display: block;
+        width: 35px;
+        height: 22px;
+        /* border: 1px solid var(--custom-option-borderColor); */
+        border-radius: 12px;
+        transform: translate(24px);
+        content: "";
+        box-shadow: 0 1px 3px;
+        background: white;
+        /* transition: all var(--transition-alpha); */
+}
+
+
+
+.c-custom-toggle__fake-input::after {
+    display: block;
+    width: 22px;
+    height: 22px;
+    /* border: 1px solid var(--custom-option-borderColor); */
+    border-radius: 100%;
+    content: "";
+    box-shadow: 0 1px 3px;
+    background: white;
+    /* transition: all var(--transition-alpha); */
+
+
+}
+
+.c-option--hidden:checked+.c-custom-toggle .c-custom-toggle__fake-input::after {
+    transform: translateX(26px);
+
+}
+
+.c-option--hidden:active+.c-custom-toggle .c-custom-toggle__fake-input::after{
+    width: 26px;
+}
+
+.c-option--hidden:active:checked+.c-custom-toggle .c-custom-toggle__fake-input::after{
+    width: 30px;
+}
+
+
+
+/* li:first-of-type + li .c-custom-toggle {
+    border-top: 1px solid black;
+    padding-top: 13px;
+    margin-bottom: 24px !important;
+} */
+
+li + li .c-custom-toggle  {
+    border-top: 1px solid black;
+    padding-top: 13px;
+}
+
+.c-toggle-list__item{
+    margin-bottom: 10px;
+}
+
+.c-custom-toggle--inverted{
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 10px;
 }
 
 /*
@@ -679,6 +934,7 @@ input::placeholder {
     background-color: var(--global-color-alpha-dark);
     box-shadow: none;
 }
+
 
 /*------------------------------------*\
 #UTILITIES
